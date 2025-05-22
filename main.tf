@@ -140,6 +140,41 @@ resource "aws_instance" "web2" {
   }
 }
 
+# Add two new EC2 instances
+resource "aws_instance" "web3" {
+  ami                    = data.aws_ami.amazon_linux.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.public.id
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+
+  root_block_device {
+    volume_size = 16
+    volume_type = "gp3"
+    encrypted   = true
+  }
+
+  tags = {
+    Name = "terraform-demo-web-instance-3"
+  }
+}
+
+resource "aws_instance" "web4" {
+  ami                    = data.aws_ami.amazon_linux.id
+  instance_type          = var.instance_type_secondary
+  subnet_id              = aws_subnet.public.id
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+
+  root_block_device {
+    volume_size = 32
+    volume_type = "gp3"
+    encrypted   = true
+  }
+
+  tags = {
+    Name = "terraform-demo-web-instance-4"
+  }
+}
+
 # DynamoDB Table
 resource "aws_dynamodb_table" "example" {
   name         = var.dynamodb_table_name
@@ -175,4 +210,14 @@ output "instance_public_ip" {
 output "instance_public_ip_secondary" {
   description = "Public IP of the secondary EC2 instance"
   value       = aws_instance.web2.public_ip
+}
+
+output "instance_public_ip_3" {
+  description = "Public IP of the third EC2 instance"
+  value       = aws_instance.web3.public_ip
+}
+
+output "instance_public_ip_4" {
+  description = "Public IP of the fourth EC2 instance"
+  value       = aws_instance.web4.public_ip
 }
