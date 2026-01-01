@@ -25,23 +25,29 @@ variable "availability_zone" {
 variable "ami_id" {
   description = "Amazon Linux 2023 AMI ID for us-west-2"
   type        = string
-  default     = "ami-0735c191cf914754d"  # Amazon Linux 2023 AMI in us-west-2
+  default     = "ami-0735c191cf914754d" # Amazon Linux 2023 AMI in us-west-2
 }
 
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "m5.large"
 }
 
 variable "instance_type_secondary" {
   description = "EC2 instance type for secondary instance"
   type        = string
-  default     = "t2.micro"
+  default     = "m5.large"
 }
 
 variable "dynamodb_table_name" {
   description = "Name of the DynamoDB table"
   type        = string
-  default     = "BasicTable"
+  default     = "prod-user-data-table"
+}
+
+variable "key_name" {
+  description = "Name of the AWS key pair for EC2 instances"
+  type        = string
+  default     = "prod-keypair"
 }
